@@ -1,0 +1,47 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background: url('solar-pan.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #333333;
+    margin: 0;
+}
+
+header {
+    background: rgba(17, 82, 179, 0.603);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+header h1 {
+    color: #fff;
+}
+
+.container {
+    margin-top: 50px;
+}
+
+.card {
+    border-radius: 15px;
+    background: rgba(17, 82, 179, 0.61);
+    color: azure;
+
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.btn-warning {
+    background-color: #007bff;
+    border: none;
+}
+
+.btn-warning:hover {
+    background-color: #0056b3;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+    color: #0c5460;
+}
