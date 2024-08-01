@@ -19,7 +19,7 @@ def predict():
         feature_names = [
             'latitude', 'longitude', 'altitude', 'humidity', 
             'ambient_temp', 'wind_speed', 'pressure', 
-            'cloud_ceiling', 'day'
+            'cloud_ceiling','month', 'day'
         ]
         features = [float(request.form[name]) for name in feature_names]
         solar_rating = float(request.form['solar_rating'])
