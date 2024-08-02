@@ -1,6 +1,8 @@
 import numpy as np
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify
 import pickle
+import logging
+
 
 # Create flask app
 app = Flask(__name__)
@@ -15,14 +17,18 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
-        # Get the features and solar rating from the form
+        if request.content_type != 'application/json':
+            return jsonify({"status": False, "message": "Content-Type must be application/json", "data": None}), 415
+        # Get the features and solar rating from the request body
+        data = request.json
         feature_names = [
             'latitude', 'longitude', 'altitude', 'humidity', 
             'ambient_temp', 'wind_speed', 'pressure', 
-            'cloud_ceiling','month', 'day'
+            'cloud_ceiling', 'month', 'day'
         ]
-        features = [float(request.form[name]) for name in feature_names]
-        solar_rating = float(request.form['solar_rating'])
+        features = [float(data[name]) for name in feature_names]
+        print(features)
+        solar_rating = float(data['solar_rating'])
 
         # Convert features to numpy array
         features_array = np.array(features).reshape(1, -1)
@@ -33,9 +39,15 @@ def predict():
         # Multiply by the solar rating
         final_output = prediction * solar_rating
 
-        return render_template('index.html', prediction_text=f'Predicted Solar Output Energy: {final_output:.2f} kW/h')
+        return jsonify({"status": True, "message": "Prediction provided successfully", "data": final_output}), 200
+    
     except ValueError as e:
-        return render_template('index.html', prediction_text=f'Error: {e}')
+        logging.error(f"ValueError: {e}")
+        return jsonify({"status": False, "message": f"An error occurred: {e}", "data": None}), 500
+    
+    except Exception as e:
+        logging.error(f"Exception: {e}")
+        return jsonify({"status": False, "message": "An unexpected error occurred", "data": None}), 500
 
 if __name__ == "__main__":
     app.run(debug=True)
