@@ -2,10 +2,12 @@ import numpy as np
 from flask import Flask, request, jsonify
 import pickle
 import logging
+from flask_cors import CORS
 
 
 # Create flask app
 app = Flask(__name__)
+CORS(app=app)
 model = pickle.load(open("model.pkl", "rb"))
 
 
