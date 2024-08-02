@@ -12,7 +12,7 @@ model = pickle.load(open("model.pkl", "rb"))
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return jsonify({"status": True, "message": "Welcome to solar pulse api", "data": None}), 200
 
 @app.route('/predict', methods=['POST'])
 def predict():
